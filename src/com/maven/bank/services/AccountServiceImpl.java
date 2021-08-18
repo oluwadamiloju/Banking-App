@@ -5,6 +5,10 @@ import com.maven.bank.Customer;
 import com.maven.bank.dataStore.AccountType;
 import com.maven.bank.dataStore.CustomerRepo;
 import com.maven.bank.exceptions.MavenBankException;
+import com.maven.bank.exceptions.MavenBankTransactionException;
+
+import java.math.BigDecimal;
+
 public class AccountServiceImpl implements AccountServices {
 
 
@@ -25,7 +29,59 @@ public class AccountServiceImpl implements AccountServices {
         return newAccount.getAccountNumber();
     }
 
-        private boolean accountTypeExists (Customer aCustomer, AccountType type){
+    @Override
+    public BigDecimal deposit(BigDecimal amount, long accountNumber) throws MavenBankTransactionException, MavenBankException {
+            if(amount.compareTo(BigDecimal.ZERO) < 0){
+                throw new MavenBankTransactionException("Deposit cannot be negative");
+            }
+        BigDecimal newBalance = BigDecimal.ZERO;
+        Account depositAccount = findAccount(accountNumber);
+        newBalance = depositAccount.getBalance().add(amount);
+        depositAccount.setBalance(newBalance);
+        return newBalance;
+    }
+
+    @Override
+    public BigDecimal withdraw(BigDecimal amount, long accountNumber, String pin) throws MavenBankException {
+        Account withdrawAccount = findAccount(accountNumber);
+        if(amount.compareTo(BigDecimal.ZERO)<= BigDecimal.ONE.intValue()){
+            throw new MavenBankTransactionException("Invalid withdrawal amount");
+        }
+        BigDecimal newBalance = BigDecimal.ZERO;
+
+        if(amount.compareTo(BigDecimal.ZERO) > 0 && Account.getAccountPin().equals(pin)) {
+            newBalance = withdrawAccount.getBalance().subtract(amount);
+            withdrawAccount.setBalance(newBalance);
+        }
+        return newBalance;
+    }
+
+    @Override
+    public Account findAccount(long accountNumber) throws MavenBankException {
+       Account foundAccount = null;
+       boolean accountFound = false;
+       for(Customer customer : CustomerRepo.getCustomers().values()){
+               for(Account anAccount:customer.getAccounts()){
+                   if(anAccount.getAccountNumber() == accountNumber){
+                       foundAccount = anAccount;
+                       accountFound = true;
+                       break;
+                   }
+               }
+               if (accountFound){
+                   break;
+
+               }
+           }return foundAccount;
+
+    }
+
+    @Override
+    public Account findAccount(Customer customer, long accountNumber) throws MavenBankException {
+        return null;
+    }
+
+    private boolean accountTypeExists (Customer aCustomer, AccountType type){
         boolean accountTypeExists = false;
         for (Account customerAccount : aCustomer.getAccounts()) {
             if (customerAccount.getTypeOfAccount() == type) {
@@ -37,5 +93,7 @@ public class AccountServiceImpl implements AccountServices {
 
 
     }
+
+
 
 }
