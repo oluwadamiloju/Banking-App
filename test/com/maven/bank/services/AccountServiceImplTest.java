@@ -1,7 +1,7 @@
 package com.maven.bank.services;
 
-import com.maven.bank.Account;
-import com.maven.bank.Customer;
+import com.maven.bank.entities.Account;
+import com.maven.bank.entities.Customer;
 import com.maven.bank.dataStore.AccountType;
 import com.maven.bank.dataStore.CustomerRepo;
 import com.maven.bank.exceptions.MavenBankException;
@@ -170,6 +170,8 @@ public class AccountServiceImplTest {
             e.printStackTrace();
         } catch (MavenBankException e) {
             e.printStackTrace();
+        } catch (MavenBankInsufficientBankException e) {
+            e.printStackTrace();
         }
 
     }
@@ -241,6 +243,8 @@ public class AccountServiceImplTest {
         } catch (MavenBankTransactionException e) {
             e.printStackTrace();
         } catch (MavenBankException e) {
+            e.printStackTrace();
+        } catch (MavenBankInsufficientBankException e) {
             e.printStackTrace();
         }
 
