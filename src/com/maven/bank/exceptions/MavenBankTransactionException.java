@@ -9,6 +9,6 @@ public class MavenBankTransactionException extends MavenBankException{
         super(message,ex);
     }
     public MavenBankTransactionException(Throwable ex){
-
+       super(ex);
     }
 }
