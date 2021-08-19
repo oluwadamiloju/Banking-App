@@ -6,13 +6,15 @@ import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Account {
-
     private long accountNumber;
     private AccountType typeOfAccount;
     private BigDecimal balance = BigDecimal.ZERO;
     private static String accountPin;
+    private Set<BankTransaction> transactions = new HashSet<>();
     private LoanRequest accountLoanRequest;
 
     public AccountType getTypeOfAccount() {
