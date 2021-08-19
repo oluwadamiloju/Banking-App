@@ -2,6 +2,7 @@ package com.maven.bank.entities;
 
 import com.maven.bank.entities.Account;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,16 @@ public class Customer {
         private String email;
         private String phone;
         private String password;
+
+    public LocalDateTime getRelationshipStartAge() {
+        return relationshipStartAge;
+    }
+
+    public void setRelationshipStartAge(LocalDateTime relationshipStartAge) {
+        this.relationshipStartAge = relationshipStartAge;
+    }
+
+    private LocalDateTime relationshipStartAge;
 
         public String getEmail() {
             return email;
@@ -69,5 +80,12 @@ public class Customer {
 
         public List<Account> getAccounts() {
             return accounts;
+        }
+
+        @Override
+        public String toString() {
+            return "Customer{" +
+                    "firstName='" + firstName + '\'' +
+                    '}';
         }
 }

@@ -4,6 +4,7 @@ import com.maven.bank.dataStore.AccountType;
 import com.maven.bank.dataStore.CustomerRepo;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.Customer;
+import com.maven.bank.entities.SavingsAccount;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 import com.maven.bank.services.BankService;
 import org.junit.jupiter.api.*;
@@ -13,14 +14,12 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
-
-
         Customer john;
         Account johnAccount;
         @BeforeEach
         void setUp(){
             john = new Customer();
-            johnAccount = new Account();
+            johnAccount = new SavingsAccount();
 
         }
 
@@ -33,7 +32,7 @@ public class AccountTest {
             john.setPhone ("12345678901");
 
             johnAccount.setAccountNumber(BankService.generateAccountNumber ());
-            johnAccount.setTypeOfAccount (AccountType.SAVINGS);
+//            johnAccount.setTypeOfAccount (AccountType.SAVINGSACCOUNT);
             johnAccount.setBalance (new BigDecimal (5000));
             johnAccount.setAccountPin ("1470");
             john.getAccounts().add(johnAccount);
